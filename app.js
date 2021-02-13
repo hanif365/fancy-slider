@@ -22,7 +22,7 @@ const showImages = (images) => {
     images.forEach(image => {
         let div = document.createElement('div');
         div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
-        div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
+        div.innerHTML = ` <img id="image-select" class="img-fluid img-thumbnail" onclick="selectItem(event,'${image.webformatURL}')" src="${image.webformatURL}" alt="${image.tags}">`;
         gallery.appendChild(div);
     })
 
@@ -44,19 +44,30 @@ let slideIndex = 0;
 const selectItem = (event, img) => {
     let element = event.target;
     element.classList.add('added');
+    // element.classList.toggle('added');
 
     let item = sliders.indexOf(img);
+    console.log(item);
     if (item === -1) {
+        // sliders.push(img);
         sliders.push(img);
+        // element.classList.add('added');
+
     } else {
-        alert('Hey, Already added !')
+        // alert('Hey, Already added !');
+        // sliders.pop(img);
+        sliders.pop(img);
+        element.classList.remove('added');
     }
+
+
 }
-var timer
+var timer;
 const createSlider = () => {
     // check slider image length
+    console.log(sliders.length);
     if (sliders.length < 2) {
-        alert('Select at least 2 image.')
+        alert('Select at least 2 image.');
         return;
     }
     // create slider previous next area
@@ -73,7 +84,15 @@ const createSlider = () => {
     // hide image aria
     imagesArea.style.display = 'none';
     // const duration = document.getElementById('duration').value || 1000;     here we ignore negative value of duration using Math.abs(); (3) number error solved.  
-    const duration = Math.abs(document.getElementById('duration').value) || 1000;       
+    // const duration = Math.abs(document.getElementById('duration').value) || 1000;
+    let duration;
+    let time = document.getElementById('duration').value;
+    if (time < 1000) {
+        duration = 1000;        // Set minimum duration 1000ms. here we also ignore negative value of duration.
+    }
+    else {
+        duration = time;        // If duration given more than 1000ms then it will be apply.
+    }
     console.log(duration);
     sliders.forEach(slide => {
         let item = document.createElement('div')
@@ -119,6 +138,7 @@ const changeSlide = (index) => {
 searchBtn.addEventListener('click', function () {
     document.querySelector('.main').style.display = 'none';
     clearInterval(timer);
+    // setInterval(timer);
     const search = document.getElementById('search');
     // console.log(search.value);
     getImages(search.value);
@@ -128,3 +148,24 @@ searchBtn.addEventListener('click', function () {
 sliderBtn.addEventListener('click', function () {
     createSlider()
 })
+
+
+
+// New code added
+
+
+// Trigger the button's click event when the Enter key is pressed inside the text box.
+document.getElementById('search').addEventListener("keypress", function (event) {
+    if (event.key === 'Enter') {
+        document.getElementById('search-btn').click();
+    }
+});
+
+document.getElementById('duration').addEventListener("keypress", function (event) {
+    if (event.key === 'Enter') {
+        document.getElementById('create-slider').click();
+    }
+});
+
+
+
