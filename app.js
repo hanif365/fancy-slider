@@ -114,15 +114,15 @@ const createSlider = () => {
 
 // change slider index 
 const changeItem = index => {
-    changeSlide(slideIndex += index);
+    changeSlide(slideIndex += index);       //e.g.,  x+=1 equivalent to x = x + 1;
 }
 
 // change slide item
 const changeSlide = (index) => {
     const items = document.querySelectorAll('.slider-item');
     if (index < 0) {
-        slideIndex = items.length - 1
-        index = slideIndex;
+        slideIndex = items.length - 1       // if index less than 0 items.length will be decreased by 1.
+        index = slideIndex;                 // Assign slideIndex to index.
     };
 
     if (index >= items.length) {
