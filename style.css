@@ -92,6 +92,18 @@ img {
     color: #fff;
 }
 
+.slider-text{
+    z-index: 9999;
+    position: absolute;
+    color: #fff;
+    bottom: 0;
+    left: 20px;
+}
+/* Spinner */
+#spinner{
+    margin-right: 100px;
+}
+
 @media (max-width: 767px) {
     .justify-content-around.align-items-center.mt-3.gallery-header.mb-2 {
         flex-direction: column;

@@ -25,10 +25,14 @@ const showImages = (images) => {
         div.innerHTML = ` <img id="image-select" class="img-fluid img-thumbnail" onclick="selectItem(event,'${image.webformatURL}')" src="${image.webformatURL}" alt="${image.tags}">`;
         gallery.appendChild(div);
     })
+    toggleSpinner();
 
 }
 
 const getImages = (query) => {
+
+    toggleSpinner();    // Function call
+
     fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
         .then(response => response.json())
         .then(data => {
@@ -38,6 +42,16 @@ const getImages = (query) => {
             showImages(data.hits);
         })
         .catch(err => console.log(err));
+}
+
+const toggleSpinner = (showSpinner) =>{
+    const spinner = document.getElementById('spinner');
+
+    const imagesContainer = document.getElementById('images-container');
+    // console.log(spinner.classList);
+    spinner.classList.toggle('d-none');
+    imagesContainer.classList.toggle('d-none');
+    
 }
 
 let slideIndex = 0;
@@ -95,12 +109,17 @@ const createSlider = () => {
     }
     console.log(duration);
     sliders.forEach(slide => {
-        let item = document.createElement('div')
+        let item = document.createElement('div');
         item.className = "slider-item";
-        item.innerHTML = `<img class="w-100"
-    src="${slide}"
-    alt="">`;
-        sliderContainer.appendChild(item)
+        item.innerHTML = `
+            <div class = "slider-text">    
+                <h1>Headline goes here</h1>
+                <p>Some Dummy Text goes here</p>
+            </div>
+            <img class="w-100" src="${slide}" alt="image-show">
+            
+        `;
+        sliderContainer.appendChild(item);
     })
     changeSlide(0)
     timer = setInterval(function () {
@@ -143,7 +162,7 @@ searchBtn.addEventListener('click', function () {
     console.log('value',search.value);
     if(search.value == ""){
         errorControl2();
-        // console.log("pleade enter a name");
+        // console.log("please enter a name");
     }
     else{
         getImages(search.value);
