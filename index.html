@@ -47,6 +47,25 @@
                 <span class="dot" onclick="changeItem(1)"></span>
             </div>
         </div>
+
+        <!-- New code -->
+
+        <!--=====> Error Message (When user input field empty and clicked search button) Section start <====-->
+        <section id="error-message2">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div id="error" class="text-center">
+                            <img src="Images/error.png" alt="Error Message">
+                            <h1 class="text-danger">Please give a image name in the search box.</h1>
+                            <button onclick="errorClose()" id="error-close-btn" class="close-btn">&#10060;
+                                Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--====> Error Message (When user input field empty and clicked search button) Section end <========-->
     </div>
     <!-- Main JavaScript -->
     <script src="app.js"></script>

@@ -140,8 +140,15 @@ searchBtn.addEventListener('click', function () {
     clearInterval(timer);
     // setInterval(timer);
     const search = document.getElementById('search');
-    // console.log(search.value);
-    getImages(search.value);
+    console.log('value',search.value);
+    if(search.value == ""){
+        errorControl2();
+        // console.log("pleade enter a name");
+    }
+    else{
+        getImages(search.value);
+    }
+    // getImages(search.value);
     sliders.length = 0;
 })
 
@@ -166,6 +173,17 @@ document.getElementById('duration').addEventListener("keypress", function (event
         document.getElementById('create-slider').click();
     }
 });
+
+
+// Error handling
+
+const errorControl2 = () => {  // Show error message(when input field is empty and search button clicked) which was hide using css.
+    document.getElementById('error-message2').style.display = "block";
+}
+
+const errorClose = () => {        // Hide error message section when clicked close button.
+    document.getElementById('error-message2').style.display = "none";
+}
 
 
 
