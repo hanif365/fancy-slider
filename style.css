@@ -4,9 +4,67 @@
     margin: 0;
     scroll-behavior: smooth;
 }
-body{
+
+body {
     background-color: #00ffff;
 }
+
+/************ Logo design ************/
+
+#logo {
+    transition: all 500ms;
+    cursor: pointer;
+}
+
+#logo:hover {
+    color: #fff;
+}
+
+/********************************** Header Section Style **********************************/
+
+header {
+    padding: 15px;
+    position: sticky;
+    top: 0;
+    background-color: #168f8f83;
+    margin-bottom: 100px;
+    z-index: 9999;
+}
+
+/********************************** Navbar Section Style **********************************/
+
+nav {
+    height: 50px;
+    width: 100%;
+    padding: 10px 0;
+}
+
+nav ul {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0px 6px;
+    list-style: none;
+}
+
+nav ul li a {
+    color: #fff;
+    padding: 10px;
+    text-transform: uppercase;
+    margin-left: 30px;
+    transition: all 500ms;
+    font-weight: 700;
+    /* text-decoration: none; */
+}
+
+nav ul li a:hover, a.active {
+    background-color: #13849681;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000;
+}
+
+/******************************* Slider Section Style *******************************/
+
 #sliders {
     height: 400px;
     width: 90%;
@@ -17,27 +75,8 @@ body{
     border-radius: 10px;
 }
 
-.gallery-header {
-    display: none;
-}
-
 .slider-item {
     display: none;
-}
-
-.img-thumbnail {
-    cursor: pointer;
-}
-
-.added {
-    /* border: 5px solid #1e1743; */
-    border: 5px solid #af0ba7;
-    border-radius: 5px;
-}
-
-img {
-    height: 400px;
-    object-fit: cover;
 }
 
 .prev-next {
@@ -54,25 +93,47 @@ img {
     color: #fff;
 }
 
-.dot, .pot {
-    background-color: rgb(163, 156, 156);
-    height: 10px;
-    width: 60px;
-    border-radius: 10px;
+.arrow-text {
+    font-size: 32px;
     cursor: pointer;
-    margin: 0 3px;
 }
-.pot{
-    background-color: red !important;
+
+/*************************** Image container Section Style ***************************/
+
+.gallery-header {
+    display: none;
+}
+
+.img-thumbnail {
+    cursor: pointer;
+}
+
+.added {
+    border: 5px solid #af0ba7;
+    border-radius: 5px;
+}
+
+img {
+    height: 400px;
+    object-fit: cover;
+}
+
+#image-select {
+    opacity: 0.6;
+    transition: all 500ms;
+}
+
+#image-select:hover {
+    opacity: 1;
 }
 
 .main {
     display: none;
 }
 
-/* Error handling */
+/***************************** Error handling *****************************/
 
-#error-message2, #error-message1{
+#error-message2, #error-message1 {
     display: none;
     position: absolute;
     max-width: 45rem;
@@ -83,11 +144,13 @@ img {
     border-radius: 0.625rem;
     padding: 1.25rem;
 }
-#error-message2 img,
-#error-message1 img{
-    /* width: 50rem; */
+
+#error-message2 img, #error-message1 img {
     height: 15rem;
 }
+
+/******************************* Close Button *******************************/
+
 .close-btn {
     padding: 10px 50px;
     border: none;
@@ -103,64 +166,18 @@ img {
     color: #fff;
 }
 
-.slider-text{
+.slider-text {
     z-index: 9999;
     position: absolute;
     color: #fff;
     bottom: 0;
     left: 20px;
 }
-/* Spinner */
-#spinner{
+
+/**************** Spinner ****************/
+
+#spinner {
     margin-right: 100px;
-}
-
-#image-select{
-    opacity: 0.6;
-    transition: all 500ms;
-}
-#image-select:hover{
-    opacity: 1;
-}
-
-
-
-nav{
-    height: 50px;
-    width: 100%;
-    padding: 10px 0;
-}
-header{
-    /* width: 1200px; */
-    /* max-width: 85%; */
-    /* margin: 0 auto; */
-    padding: 15px;
-    position: sticky;
-    top: 0;
-    background-color: #168f8f83;
-    margin-bottom: 100px;
-    z-index: 9999;
-}
-nav ul{
-    display: flex;
-    justify-content: flex-end;
-    margin: 0px 6px;
-    list-style: none;
-}
-nav ul li a{
-    color: #fff;
-    padding: 10px;
-    text-transform: uppercase;
-    margin-left: 30px;
-    transition: all 500ms;
-    font-weight: 700;
-    /* text-decoration: none; */
-}
-nav ul li a:hover, a.active{
-    background-color: #52AF3A;
-    border-radius: 5px;
-    text-decoration: none;
-    color: #000;
 }
 
 /**************************** Bootom To Top Button *****************************/
@@ -173,13 +190,16 @@ nav ul li a:hover, a.active{
     color: #fff;
     padding: 10px 15px;
     border-radius: 5px;
-    transition: all 1500ms;
+    transition: all 500ms;
 }
 
 .bottom-to-top:hover {
-    background: #8a04f8;
+    background: #ac1869;
     color: #fff;
 }
+
+/************************** Little bit Media Query **************************/
+
 @media (max-width: 767px) {
     .justify-content-around.align-items-center.mt-3.gallery-header.mb-2 {
         flex-direction: column;

@@ -4,110 +4,85 @@ const galleryHeader = document.querySelector('.gallery-header');
 const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
-// selected image 
+
 let sliders = [];
 
 
-// If this key doesn't work
-// Find the name in the url and go to their website
-// to create your own api key
-const KEY = '15674931-a9d714b6e9d654524df198e00&q';
+const KEY = '15674931-a9d714b6e9d654524df198e00&q';     // API key
 
 // show images 
 const showImages = (images) => {
-    imagesArea.style.display = 'block';
+    imagesArea.style.display = 'block';     // hide image container.
     gallery.innerHTML = '';
-    if(images == ""){
-        console.log("test");
-        document.getElementById('images-container').style.display = "none";
+    if (images == "") {                     // if search value is unavailable , then function call to show error message.
+        document.getElementById('images-container').style.display = "none";  // if error occur then image container will hidden.
         errorControl1();
-        
     }
-    console.log(images);
-    // show gallery title
+
     galleryHeader.style.display = 'flex';
     images.forEach(image => {
         let div = document.createElement('div');
-        console.log('Image id', image.id);
-        console.log("Hello");
-        div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
-        div.innerHTML = ` <img id="image-select" class="img-fluid img-thumbnail" onclick="selectItem(event,'${image.webformatURL}')" src="${image.webformatURL}" alt="${image.tags}">`;
+        div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';     // add class in above div.
+        div.innerHTML = ` <img id="image-select" class="img-fluid img-thumbnail" onclick="selectItem(event,'${image.webformatURL}')" src="${image.webformatURL}" alt="${image.tags}">`;     // when click these image another function call
         gallery.appendChild(div);
     })
-    toggleSpinner();
+    toggleSpinner();    // After loading data successfully searching spinner will hidden.
 
 }
 
 const getImages = (query) => {
-    // console.log('Query is ', query);
+    toggleSpinner();    // Function call to show loading spinner.
 
-    toggleSpinner();    // Function call
-
-    fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
-        .then(response => response.json())
+    fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)      // fetch API to get data
+        .then(response => response.json())      // to get data in JSON format
         .then(data => {
-            // console.log(data);
-            console.log(data.hits);
-            // showImages(data.hitS); (1)Error occur here.
-            showImages(data.hits);
+            showImages(data.hits);      // Function call for go to next step
         })
-        .catch(err => console.log(err));
-        // .catch(err => errorControl2());
+        .catch(err => errorControl1());
 }
 
 const toggleSpinner = (showSpinner) => {
-    const spinner = document.getElementById('spinner');
-
+    const spinner = document.getElementById('spinner');                     // spinner show in toggle way.
     const imagesContainer = document.getElementById('images-container');
-    // console.log(spinner.classList);
-    spinner.classList.toggle('d-none');
-    imagesContainer.classList.toggle('d-none');
-
-}
+    spinner.classList.toggle('d-none');                                     // add and remove d-none class and that's way
+    imagesContainer.classList.toggle('d-none');                             // show and hidden spinner and images container
+}                                                                           // when function call.
 
 let slideIndex = 0;
 const selectItem = (event, img) => {
     let element = event.target;
-    
-    // element.classList.toggle('added');
-
     let item = sliders.indexOf(img);
-    console.log(item);
 
-    if (item == -1) {
-        sliders.push(img);
+    if (item == -1) {                       // if value of item equal to -1 that means, it is not select for the slider  
+        sliders.push(img);                  // still now  and then it will be add to the slider when clicked this image.
         element.classList.add('added');
-    } 
-    else{
-        sliders.splice(item,1);
+    }
+    else {                                  // if value of item is not equal to -1 that means, it is selected and when
+        sliders.splice(item, 1);            // clicked this image again it will be deselect from the slider list.
         element.classList.remove('added');
     }
-
-
 }
+
 var timer;
 const createSlider = () => {
-    // check slider image length
-    // console.log(sliders.length);
-    if (sliders.length < 2) {
-        alert('Select at least 2 image.');
+    if (sliders.length < 2) {               // We consider, at list two images for create slider.
+        alert('Select at least 2 image.'); // if slider length less then 2 then an alert show in the screen and return function.
         return;
     }
-    // create slider previous next area
+
     sliderContainer.innerHTML = '';
     const prevNext = document.createElement('div');
     prevNext.className = "prev-next d-flex w-100 justify-content-between align-items-center";
     prevNext.innerHTML = ` 
         <span class="prev" onclick="changeItem(-1)"><i class="fas fa-chevron-left"></i></span>
         <span class="next" onclick="changeItem(1)"><i class="fas fa-chevron-right"></i></span>
-    `;
+    `;      // create previous and next arrow indicator using template string.
 
     sliderContainer.appendChild(prevNext);
     document.querySelector('.main').style.display = 'block';
     // hide image aria
     imagesArea.style.display = 'none';
-    // const duration = document.getElementById('duration').value || 1000;     here we ignore negative value of duration using Math.abs(); (3) number error solved.  
-    // const duration = Math.abs(document.getElementById('duration').value) || 1000;
+
     let duration;
     let time = document.getElementById('duration').value;
     if (time < 1000) {
@@ -116,7 +91,7 @@ const createSlider = () => {
     else {
         duration = time;        // If duration given more than 1000ms then it will be apply.
     }
-    // console.log(duration);
+
     sliders.forEach(slide => {
         let item = document.createElement('div');
         item.className = "slider-item";
@@ -127,10 +102,10 @@ const createSlider = () => {
             </div>
             <img class="w-100" src="${slide}" alt="image-show">
             
-        `;
-        sliderContainer.appendChild(item);
+        `;          // Create slider image and text using template string.
+        sliderContainer.appendChild(item);      // Append item to slider container.
     })
-    changeSlide(0)
+    changeSlide(0);                         // set time to change the slide.
     timer = setInterval(function () {
         slideIndex++;
         changeSlide(slideIndex);
@@ -144,7 +119,6 @@ const changeItem = index => {
 
 // change slide item
 const changeSlide = (index) => {
-
     const items = document.querySelectorAll('.slider-item');
     if (index < 0) {
         slideIndex = items.length - 1
@@ -156,35 +130,31 @@ const changeSlide = (index) => {
         slideIndex = 0;
     }
 
-    items.forEach(item => {
+    items.forEach(item => {                 // when one slide show then another slide hidden.
         item.style.display = "none"
     })
 
     items[index].style.display = "block"
 }
 
-searchBtn.addEventListener('click', function () {
-    
-    document.querySelector('.main').style.display = 'none';
+searchBtn.addEventListener('click', function () {       // Get search field value when search button clicked.
+
+    document.querySelector('.main').style.display = 'none';     // Slider container display hidden.
     clearInterval(timer);
-    // setInterval(timer);
     const search = document.getElementById('search');
-    // console.log('value', search.value);
-    if (search.value == "") {
+    if (search.value == "") {                           // if search value empty then show an error message.
         document.getElementById('images-container').style.display = "none";
-        errorControl2();
-        // console.log("please enter a name");
+        errorControl2();                                // function call to show error message.
     }
     else {
-        getImages(search.value);
+        getImages(search.value);                        // if value is not empty then another function call
     }
-    // getImages(search.value);
     sliders.length = 0;
 
-    document.getElementById('search').value = "";
+    document.getElementById('search').value = "";       // After clicked search button, value(text) of search field will empty.
 
-    document.getElementById('search').addEventListener('click',function(){
-        document.getElementById('slider-container').style.display = "none";
+    document.getElementById('search').addEventListener('click', function () {   // when clicked search button, slider container
+        document.getElementById('slider-container').style.display = "none";     // section will be hidden.
     })
 })
 
@@ -192,12 +162,7 @@ sliderBtn.addEventListener('click', function () {
     createSlider()
 })
 
-
-
-// New code added
-
-
-// Trigger the button's click event when the Enter key is pressed inside the text box.
+// Trigger the button's click event when the Enter key is pressed inside the text box and duration box.
 document.getElementById('search').addEventListener("keypress", function (event) {
     if (event.key === 'Enter') {
         document.getElementById('search-btn').click();
@@ -211,9 +176,8 @@ document.getElementById('duration').addEventListener("keypress", function (event
 });
 
 
-// Error handling
-
-const errorControl1 = () => {
+// Error handling 
+const errorControl1 = () => {   // show error message (when search image is not found) which was hide using custom CSS.
     document.getElementById('error-message1').style.display = "block";
 }
 
@@ -224,8 +188,4 @@ const errorControl2 = () => {  // Show error message(when input field is empty a
 const errorClose = () => {        // Hide error message section when clicked close button.
     document.getElementById('error-message2').style.display = "none";
     document.getElementById('error-message1').style.display = "none";
-    // document.getElementById('images-container').style.display = "block";
 }
-
-
-
