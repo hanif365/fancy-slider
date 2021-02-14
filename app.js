@@ -17,10 +17,19 @@ const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 const showImages = (images) => {
     imagesArea.style.display = 'block';
     gallery.innerHTML = '';
+    if(images == ""){
+        console.log("test");
+        document.getElementById('images-container').style.display = "none";
+        errorControl1();
+        
+    }
+    console.log(images);
     // show gallery title
     galleryHeader.style.display = 'flex';
     images.forEach(image => {
         let div = document.createElement('div');
+        console.log('Image id', image.id);
+        console.log("Hello");
         div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
         div.innerHTML = ` <img id="image-select" class="img-fluid img-thumbnail" onclick="selectItem(event,'${image.webformatURL}')" src="${image.webformatURL}" alt="${image.tags}">`;
         gallery.appendChild(div);
@@ -30,6 +39,7 @@ const showImages = (images) => {
 }
 
 const getImages = (query) => {
+    // console.log('Query is ', query);
 
     toggleSpinner();    // Function call
 
@@ -42,35 +52,34 @@ const getImages = (query) => {
             showImages(data.hits);
         })
         .catch(err => console.log(err));
+        // .catch(err => errorControl2());
 }
 
-const toggleSpinner = (showSpinner) =>{
+const toggleSpinner = (showSpinner) => {
     const spinner = document.getElementById('spinner');
 
     const imagesContainer = document.getElementById('images-container');
     // console.log(spinner.classList);
     spinner.classList.toggle('d-none');
     imagesContainer.classList.toggle('d-none');
-    
+
 }
 
 let slideIndex = 0;
 const selectItem = (event, img) => {
     let element = event.target;
-    element.classList.add('added');
+    
     // element.classList.toggle('added');
 
     let item = sliders.indexOf(img);
     console.log(item);
-    if (item === -1) {
-        // sliders.push(img);
-        sliders.push(img);
-        // element.classList.add('added');
 
-    } else {
-        // alert('Hey, Already added !');
-        // sliders.pop(img);
-        sliders.pop(img);
+    if (item == -1) {
+        sliders.push(img);
+        element.classList.add('added');
+    } 
+    else{
+        sliders.splice(item,1);
         element.classList.remove('added');
     }
 
@@ -79,7 +88,7 @@ const selectItem = (event, img) => {
 var timer;
 const createSlider = () => {
     // check slider image length
-    console.log(sliders.length);
+    // console.log(sliders.length);
     if (sliders.length < 2) {
         alert('Select at least 2 image.');
         return;
@@ -107,7 +116,7 @@ const createSlider = () => {
     else {
         duration = time;        // If duration given more than 1000ms then it will be apply.
     }
-    console.log(duration);
+    // console.log(duration);
     sliders.forEach(slide => {
         let item = document.createElement('div');
         item.className = "slider-item";
@@ -155,20 +164,28 @@ const changeSlide = (index) => {
 }
 
 searchBtn.addEventListener('click', function () {
+    
     document.querySelector('.main').style.display = 'none';
     clearInterval(timer);
     // setInterval(timer);
     const search = document.getElementById('search');
-    console.log('value',search.value);
-    if(search.value == ""){
+    // console.log('value', search.value);
+    if (search.value == "") {
+        document.getElementById('images-container').style.display = "none";
         errorControl2();
         // console.log("please enter a name");
     }
-    else{
+    else {
         getImages(search.value);
     }
     // getImages(search.value);
     sliders.length = 0;
+
+    document.getElementById('search').value = "";
+
+    document.getElementById('search').addEventListener('click',function(){
+        document.getElementById('slider-container').style.display = "none";
+    })
 })
 
 sliderBtn.addEventListener('click', function () {
@@ -196,12 +213,18 @@ document.getElementById('duration').addEventListener("keypress", function (event
 
 // Error handling
 
+const errorControl1 = () => {
+    document.getElementById('error-message1').style.display = "block";
+}
+
 const errorControl2 = () => {  // Show error message(when input field is empty and search button clicked) which was hide using css.
     document.getElementById('error-message2').style.display = "block";
 }
 
 const errorClose = () => {        // Hide error message section when clicked close button.
     document.getElementById('error-message2').style.display = "none";
+    document.getElementById('error-message1').style.display = "none";
+    // document.getElementById('images-container').style.display = "block";
 }
 
 
